@@ -36,6 +36,13 @@ class GameController extends BaseHttpController {
 		return res.send(games);
 	}
 
+	@httpGet('/:id([0-9]{1,6})')
+	public async getGameById(@request() req: Request, @response() res: Response, @next() next: NextFunction) {
+		const id = Number.parseInt(req.params.id);
+		const games = await this.gameService.getGameById(id);
+		return res.send(games);
+	}
+
 	@httpPost('', makeValidateBody(CreateGameValidation))
 	public async createGame(@request() req: Request, @response() res: Response, @next() next: NextFunction) {
 		try {

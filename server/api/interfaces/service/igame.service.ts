@@ -11,6 +11,14 @@ export interface IGameService {
 	saveGame(gameData: IGame): Promise<IGame>;
 
 	/**
+	 * @description Gets a game given its id
+	 * @param  {number} id
+	 * @return Promise<IGame>
+	 * @memberof GameService
+	 */
+	getGameById(id: number): Promise<IGame>;
+
+	/**
 	 * @description Gets the games from the database. This method should handle business logic.
 	 * @return Promise<IGame[]>
 	 * @memberof GameService

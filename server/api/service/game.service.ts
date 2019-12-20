@@ -55,6 +55,28 @@ export class GameService implements IGameService {
 	}
 
 	/**
+	 * @description Gets a game given its id
+	 * @param  {number} id
+	 * @return Promise<IGame>
+	 * @memberof GameService
+	 */
+	public async getGameById(id: number): Promise<IGame> {
+		try {
+			let foundGame: IGame = null;
+			foundGame = await this.gamePersistence.getGameById(id);
+			if (!foundGame) {
+				throw new NotFoundError('Game not found');
+			}
+			return foundGame;
+		} catch (error) {
+			if (error instanceof NotFoundError) {
+				throw error;
+			}
+			throw new Error(error.message);
+		}
+	}
+
+	/**
 	 * @description Gets a game publisher given the game ID
 	 * @param  {number} gameId
 	 * @return IPublisher
