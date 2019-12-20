@@ -1,6 +1,6 @@
 # My Microservice
 
-This repo is part of a test for someone
+This repo is just a simple games management API sample
 
 - [My Microservice](#my-microservice)
   - [About this repo](#about-this-repo)
