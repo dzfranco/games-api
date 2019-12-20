@@ -10,7 +10,7 @@ export class CreateGameValidation implements Partial<IGame> {
 	private price: number;
 	@IsNumber()
 	@IsInt()
-	private publisher: number;
+	private publisherId: number;
 	@IsString({ each: true })
 	@IsArray()
 	private tags: string[];
@@ -50,19 +50,19 @@ export class CreateGameValidation implements Partial<IGame> {
 	}
 
 	/**
-	 * Getter $publisher
+	 * Getter $publisherId
 	 * @return {number}
 	 */
-	public get $publisher(): number {
-		return this.publisher;
+	public get $publisherId(): number {
+		return this.publisherId;
 	}
 
 	/**
-	 * Setter $publisher
+	 * Setter $publisherId
 	 * @param {number} value
 	 */
-	public set $publisher(value: number) {
-		this.publisher = value;
+	public set $publisherId(value: number) {
+		this.publisherId = value;
 	}
 
 	/**

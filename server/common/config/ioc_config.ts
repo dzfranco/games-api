@@ -7,6 +7,8 @@ import { Identifiers } from '../identifiers';
 import { GamePersistence } from '../../api/persistence/game.persistence';
 import { IGameService } from '../../api/interfaces/service/igame.service';
 import { GameService } from '../../api/service/game.service';
+import { IPublisherPersistence } from '../../api/interfaces/persistence/ipublisher.persistence';
+import { PublisherPersistence } from '../../api/persistence/publisher.persistence';
 
 /**
  * @description Inversion of Control Container
@@ -21,6 +23,9 @@ export class IOCContainer {
 
 			// Inject persistence
 			container.bind<IGamePersistence>(Identifiers.GAME_PERSISTENCE_IDENTIFIER).to(GamePersistence);
+			container
+				.bind<IPublisherPersistence>(Identifiers.PUBLISHER_PERSISTENCE_IDENTIFIER)
+				.to(PublisherPersistence);
 
 			// Inject Service
 			container

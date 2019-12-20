@@ -1,8 +1,9 @@
+import { IPublisher } from '../publisher/ipublisher';
 export interface IGame {
 	$id: number;
 	$title: string;
 	$price: number;
-	$publisher: number;
+	$publisherId: number;
 	$tags: string[];
 	$releaseDate: Date;
 }

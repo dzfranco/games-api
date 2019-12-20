@@ -1,10 +1,11 @@
 import { IGame } from './igame';
+import { IPublisher } from '../publisher/ipublisher';
 
 export class GameDTO implements IGame {
 	private id: number;
 	private title: string;
 	private price: number;
-	private publisher: number;
+	private publisherId: number;
 	private tags: string[];
 	private releaseDate: Date;
 
@@ -34,10 +35,10 @@ export class GameDTO implements IGame {
 
 	/**
 	 * Getter $publisher
-	 * @return {string}
+	 * @return {number}
 	 */
-	public get $publisher(): number {
-		return this.publisher;
+	public get $publisherId(): number {
+		return this.publisherId;
 	}
 
 	/**
@@ -82,10 +83,10 @@ export class GameDTO implements IGame {
 
 	/**
 	 * Setter $publisher
-	 * @param {string} value
+	 * @param {number} value
 	 */
-	public set $publisher(value: number) {
-		this.publisher = value;
+	public set $publisherId(value: number) {
+		this.publisherId = value;
 	}
 
 	/**

@@ -4,6 +4,7 @@ import { Game } from '../../common/models/game/game';
 import { IGamePersistence } from '../interfaces/persistence/igame.persistence';
 import { Repository, Connection } from 'typeorm';
 import { Identifiers } from '../../common/identifiers';
+import { Publisher } from '../../common/models/publisher/publisher';
 
 @injectable()
 export class GamePersistence implements IGamePersistence {
@@ -17,9 +18,21 @@ export class GamePersistence implements IGamePersistence {
 		game1.$price = 39.99;
 		game1.$tags = ['shooter'];
 		game1.$releaseDate = new Date();
-		game1.$publisher = 1;
+		game1.$publisher = new Publisher();
 		game1.$title = 'Red Dead Redemption 2';
 		this.games = [game1];
+	}
+
+	/**
+	 * @description Gets a game given its id
+	 * @param  {number} gameId
+	 * @return Promise<IGame>
+	 * @memberof GamePersistenceMock
+	 */
+	public async getGameById(gameId: number): Promise<IGame> {
+		const query = { where: { id: gameId } };
+		const foundGame = await this.repository.findOne(query);
+		return foundGame;
 	}
 
 	/**
@@ -32,7 +45,7 @@ export class GamePersistence implements IGamePersistence {
 		const game = new Game();
 		game.$price = 9.99;
 		game.$title = 'Test';
-		game.$publisher = 1;
+		game.$publisher = new Publisher();
 		game.$releaseDate = new Date();
 		game.$tags = ['testing', 'game'];
 		const savedGame = await this.repository.save(game);

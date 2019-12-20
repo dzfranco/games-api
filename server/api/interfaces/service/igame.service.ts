@@ -1,4 +1,5 @@
 import { IGame } from '../../../common/models/game/igame';
+import { IPublisher } from '../../../common/models/publisher/ipublisher';
 
 export interface IGameService {
 	/**
@@ -15,4 +16,12 @@ export interface IGameService {
 	 * @memberof GameService
 	 */
 	getGames(cursor: string, limit: number): IGame[];
+
+	/**
+	 * @description Gets a game publisher given the game ID
+	 * @param  {number} gameId
+	 * @return IPublisher
+	 * @memberof GameService
+	 */
+	getGamePublisher(gameId: number): Promise<IPublisher>;
 }

@@ -8,6 +8,7 @@ import { GameMock } from '../../mocks/models/game/game.mock';
 import { GameService } from '../../../server/api/service/game.service';
 import { IGame } from '../../../server/common/models/game/igame';
 import { InternalServerError } from 'restify-errors';
+import { Publisher } from '../../../server/common/models/publisher/publisher';
 
 let container: Container;
 let service: IGameService;
@@ -41,7 +42,7 @@ describe('Game Service Unit Tests', () => {
 		mock.$price = 9.99;
 		mock.$releaseDate = new Date('2019-12-20T03:19:03.174Z');
 		mock.$tags = ['fighting'];
-		mock.$publisher = 1;
+		mock.$publisherId = 1;
 		mock.$title = 'Street fighter';
 		await expect(service.saveGame(mock)).rejects.toBeInstanceOf(InternalServerError);
 		expect(spy).toHaveBeenCalled();

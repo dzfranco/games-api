@@ -1,11 +1,29 @@
 import { IGame } from '../../../../server/common/models/game/igame';
+import { IPublisher } from '../../../../server/common/models/publisher/ipublisher';
 export class GameMock implements IGame {
 	private id: number;
 	private title: string;
 	private price: number;
-	private publisher: number;
+	private publisher: IPublisher;
+	private publisherId: number;
 	private tags: string[];
 	private releaseDate: Date;
+
+	/**
+	 * Getter $publisherId
+	 * @return {number}
+	 */
+	public get $publisherId(): number {
+		return this.publisherId;
+	}
+
+	/**
+	 * Setter $publisherId
+	 * @param {number} value
+	 */
+	public set $publisherId(value: number) {
+		this.publisherId = value;
+	}
 
 	/**
 	 * Getter $id
@@ -33,9 +51,9 @@ export class GameMock implements IGame {
 
 	/**
 	 * Getter $publisher
-	 * @return {string}
+	 * @return {IPublisher}
 	 */
-	public get $publisher(): number {
+	public get $publisher(): IPublisher {
 		return this.publisher;
 	}
 
@@ -81,9 +99,9 @@ export class GameMock implements IGame {
 
 	/**
 	 * Setter $publisher
-	 * @param {string} value
+	 * @param {IPublisher} value
 	 */
-	public set $publisher(value: number) {
+	public set $publisher(value: IPublisher) {
 		this.publisher = value;
 	}
 

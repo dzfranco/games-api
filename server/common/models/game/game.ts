@@ -1,5 +1,5 @@
 import { IGame } from './igame';
-import { PrimaryGeneratedColumn, Column, Entity, OneToOne, JoinColumn } from 'typeorm';
+import { PrimaryGeneratedColumn, Column, Entity, OneToOne, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { Publisher } from '../publisher/publisher';
 
 @Entity('game')
@@ -10,13 +10,35 @@ export class Game implements IGame {
 	private title: string;
 	@Column('double')
 	private price: number;
-	@OneToOne(type => Publisher)
-	@JoinColumn()
-	private publisher: number;
+	@Column()
+	private publisherId: number;
+
+	@ManyToOne(
+		() => Publisher,
+		publisher => publisher.$id
+	)
+	private publisher: Publisher;
+
 	@Column('simple-array')
 	private tags: string[];
 	@Column()
 	private releaseDate: Date;
+
+	/**
+	 * Getter $publisherId
+	 * @return {number}
+	 */
+	public get $publisherId(): number {
+		return this.publisherId;
+	}
+
+	/**
+	 * Setter $publisherId
+	 * @param {number} value
+	 */
+	public set $publisherId(value: number) {
+		this.publisherId = value;
+	}
 
 	/**
 	 * Getter $id
@@ -44,9 +66,9 @@ export class Game implements IGame {
 
 	/**
 	 * Getter $publisher
-	 * @return {string}
+	 * @return {Publisher}
 	 */
-	public get $publisher(): number {
+	public get $publisher(): Publisher {
 		return this.publisher;
 	}
 
@@ -92,9 +114,9 @@ export class Game implements IGame {
 
 	/**
 	 * Setter $publisher
-	 * @param {string} value
+	 * @param {Publisher} value
 	 */
-	public set $publisher(value: number) {
+	public set $publisher(value: Publisher) {
 		this.publisher = value;
 	}
 

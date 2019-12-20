@@ -4,6 +4,7 @@ import { injectable } from 'inversify';
 import { IGamePersistence } from '../../../server/api/interfaces/persistence/igame.persistence';
 import { IGame } from '../../../server/common/models/game/igame';
 import { Game } from '../../../server/common/models/game/game';
+import { Publisher } from '../../../server/common/models/publisher/publisher';
 
 @injectable()
 export class GamePersistenceMock implements IGamePersistence {
@@ -14,7 +15,7 @@ export class GamePersistenceMock implements IGamePersistence {
 		game1.$price = 39.99;
 		game1.$tags = ['shooter'];
 		game1.$releaseDate = new Date();
-		game1.$publisher = 1;
+		game1.$publisher = new Publisher();
 		game1.$title = 'Red Dead Redemption 2';
 		this.games = [game1];
 	}
@@ -31,7 +32,24 @@ export class GamePersistenceMock implements IGamePersistence {
 		game1.$price = 39.99;
 		game1.$tags = ['shooter'];
 		game1.$releaseDate = new Date();
-		game1.$publisher = 1;
+		game1.$publisher = new Publisher();
+		game1.$title = 'Red Dead Redemption 2';
+		return game1;
+	}
+
+	/**
+	 * @description Gets a game given its id
+	 * @param  {number} gameId
+	 * @return Promise<IGame>
+	 * @memberof GamePersistenceMock
+	 */
+	public async getGameById(gameId: number): Promise<IGame> {
+		const game1 = new Game();
+		game1.$id = 1;
+		game1.$price = 39.99;
+		game1.$tags = ['shooter'];
+		game1.$releaseDate = new Date();
+		game1.$publisherId = 1;
 		game1.$title = 'Red Dead Redemption 2';
 		return game1;
 	}

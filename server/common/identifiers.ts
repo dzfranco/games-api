@@ -5,4 +5,7 @@ export class Identifiers {
 	// Game
 	public static GAME_SERVICE_IDENTIFIER = Symbol.for('game_service');
 	public static GAME_PERSISTENCE_IDENTIFIER = Symbol.for('game_persistence');
+
+	// Publisher
+	public static PUBLISHER_PERSISTENCE_IDENTIFIER = Symbol.for('publisher_persistence');
 }

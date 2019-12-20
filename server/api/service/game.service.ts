@@ -3,14 +3,21 @@ import { IGameService } from '../interfaces/service/igame.service';
 import { IGame } from '../../common/models/game/igame';
 import { IGamePersistence } from '../interfaces/persistence/igame.persistence';
 import { Identifiers } from '../../common/identifiers';
-import { InternalServerError } from 'restify-errors';
+import { InternalServerError, NotFoundError } from 'restify-errors';
+import { IPublisherPersistence } from '../interfaces/persistence/ipublisher.persistence';
+import { IPublisher } from '../../common/models/publisher/ipublisher';
 
 @injectable()
 export class GameService implements IGameService {
 	private gamePersistence: IGamePersistence;
+	private publisherPersistence: IPublisherPersistence;
 
-	constructor(@inject(Identifiers.GAME_PERSISTENCE_IDENTIFIER) $gamePersistence: IGamePersistence) {
+	constructor(
+		@inject(Identifiers.GAME_PERSISTENCE_IDENTIFIER) $gamePersistence: IGamePersistence,
+		@inject(Identifiers.PUBLISHER_PERSISTENCE_IDENTIFIER) $publisherPersistence: IPublisherPersistence
+	) {
 		this.gamePersistence = $gamePersistence;
+		this.publisherPersistence = $publisherPersistence;
 	}
 
 	/**
@@ -39,6 +46,32 @@ export class GameService implements IGameService {
 			return games;
 		} catch (error) {
 			throw new Error(error.message);
+		}
+	}
+
+	/**
+	 * @description Gets a game publisher given the game ID
+	 * @param  {number} gameId
+	 * @return IPublisher
+	 * @memberof GameService
+	 */
+	public async getGamePublisher(gameId: number): Promise<IPublisher> {
+		try {
+			let foundGame: IGame = null;
+			foundGame = await this.gamePersistence.getGameById(gameId);
+			if (!foundGame) {
+				throw new NotFoundError('Game not found');
+			}
+			const foundPublisher = await this.publisherPersistence.getGamePublisher(foundGame);
+			if (!foundPublisher) {
+				throw new NotFoundError('Publisher not found');
+			}
+			return foundPublisher;
+		} catch (error) {
+			if (error instanceof NotFoundError) {
+				throw error;
+			}
+			throw new InternalServerError(error, error.message);
 		}
 	}
 }

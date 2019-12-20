@@ -5,7 +5,6 @@ import { inject } from 'inversify';
 import { Identifiers } from '../../../common/identifiers';
 import { makeValidateBody } from 'express-class-validator';
 import { CreateGameValidation } from '../../validation/game/create-game';
-import { GameDTO } from '../../../common/models/game/game.dto';
 import { IGame } from '../../../common/models/game/igame';
 
 @controller('/game')
@@ -32,6 +31,13 @@ class GameController extends BaseHttpController {
 		} catch (error) {
 			throw error;
 		}
+	}
+
+	@httpGet('/:id([0-9]{1,6})/publisher')
+	public async getPublisher(@request() req: Request, @response() res: Response, @next() next: NextFunction) {
+		const id = Number.parseInt(req.params.id);
+		const publisher = await this.gameService.getGamePublisher(id);
+		return publisher;
 	}
 }
 

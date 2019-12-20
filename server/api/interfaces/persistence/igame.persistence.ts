@@ -11,6 +11,14 @@ export interface IGamePersistence {
 	getGames(cursor: string, limit: number): IGame[];
 
 	/**
+	 * @description Gets a game given its id
+	 * @param  {number} gameId
+	 * @return Promise<IGame>
+	 * @memberof GamePersistenceMock
+	 */
+	getGameById(gameId: number): Promise<IGame>;
+
+	/**
 	 * @description Creates a new game
 	 * @param  {IGame} data
 	 * @return Promise<IGame>
