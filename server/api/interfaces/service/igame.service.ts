@@ -32,4 +32,12 @@ export interface IGameService {
 	 * @memberof GameService
 	 */
 	updateGame(gameData: IGame): Promise<IGame>;
+
+	/**
+	 * @description Removes a game
+	 * @param  {number} gameId
+	 * @return Promise<IGame>
+	 * @memberof GameService
+	 */
+	removeGame(gameId: number): Promise<IGame>;
 }

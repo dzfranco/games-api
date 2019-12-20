@@ -95,4 +95,25 @@ export class GameService implements IGameService {
 			throw new InternalServerError(error, error.message);
 		}
 	}
+
+	/**
+	 * @description Removes a game
+	 * @param  {number} gameId
+	 * @return Promise<IGame>
+	 * @memberof GameService
+	 */
+	public async removeGame(gameId: number): Promise<IGame> {
+		try {
+			const updatedGame = await this.gamePersistence.removeGame(gameId);
+			if (updatedGame === undefined) {
+				throw new NotFoundError('Game not found');
+			}
+			return updatedGame;
+		} catch (error) {
+			if (error instanceof NotFoundError) {
+				throw error;
+			}
+			throw new InternalServerError(error, error.message);
+		}
+	}
 }

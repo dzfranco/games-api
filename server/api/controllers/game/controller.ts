@@ -7,6 +7,7 @@ import {
 	next,
 	httpPost,
 	httpPut,
+	httpDelete,
 } from 'inversify-express-utils';
 import { Request, Response, NextFunction } from 'express';
 import { IGameService } from '../../interfaces/service/igame.service';
@@ -53,6 +54,13 @@ class GameController extends BaseHttpController {
 		} catch (error) {
 			throw error;
 		}
+	}
+
+	@httpDelete('/:id([0-9]{1,6})')
+	public async removeGame(@request() req: Request, @response() res: Response, @next() next: NextFunction) {
+		const id = Number.parseInt(req.params.id);
+		const removedGame = await this.gameService.removeGame(id);
+		return removedGame;
 	}
 
 	@httpGet('/:id([0-9]{1,6})/publisher')
