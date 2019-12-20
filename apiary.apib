@@ -1,0 +1,169 @@
+FORMAT: 1A
+HOST: https://127.0.0.1:3000/
+
+# Games API
+
+This is a simple api to manage games
+
+## Game Collection [/game]
+
+### Get Game Publisher [GET /game/{id}/publisher]
+
++ Parameters
+    + id (required, number) - The game id
+
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "id": 1,
+                "name": "Capcom",
+                "siret": 13298,
+                "phone": "8908908"
+            }
+
+### Get One Game [GET /game/{id}]
+
++ Parameters
+    + id (required, number) - The game id
+
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "id": 3,
+                "title": "Street Fighter",
+                "price": 9.99,
+                "publisherId": 1,
+                 "tags": [],
+                "releaseDate": "2019-12-21T03:19:03.000Z"
+            }
+
+### List Games [GET /game?{limit}&{cursor}]
+
++ Request
+    + Parameters
+        - limit(number) ... The max amount of games to return
+        - cursor(number) ... The cursor
+
+
++ Response 200 (application/json)
+
+        [
+          {
+            "id": 3,
+            "title": "Street Fighter",
+            "price": 9.99,
+            "publisherId": 1,
+            "tags": [],
+            "releaseDate": "2019-12-21T03:19:03.000Z"
+          },
+          {
+            "id": 4,
+            "title": "Resident Evil",
+            "price": 102.4,
+            "publisherId": 1,
+            "tags": [],
+            "releaseDate": "2018-10-10T03:19:03.000Z"
+          }
+        ]
+
+### Create a New Game [POST]
+
+
++ Request (application/json; charset=utf-8)
+
+        {
+            "price": 9.99,
+            "publisherId": 1,
+            "tags": [
+                "strategy",
+                "turn-based",
+                "space"
+            ],
+            "releaseDate": "2017-05-18T03:19:03.174Z",
+            "title": "Endless Space 2"
+        }
+
++ Response 201 (application/json)
+
+
+    + Body
+
+            {
+                "price": 9.99,
+                "title": "Endless Space 2",
+                "publisherId": 1,
+                "releaseDate": "2017-05-18T03:19:03.174Z",
+                "tags": [
+                    "strategy",
+                    "turn-based",
+                    "space"
+            ],
+                "id": 10
+            }
+
+### Update an existing Game [PUT /game/{id}]
+
++ Parameters
+    + id (required, number) - The game id
+
++ Request (application/json; charset=utf-8)
+
+        {
+            "price": 29.99,
+            "publisherId": 1,
+            "tags": [
+                "action",
+                "exploring",
+                "female-protagonist"
+            ],
+            "releaseDate": "2017-05-18T03:19:03.174Z",
+            "title": "Shadow of the Tomb Raider"
+        }
+
++ Response 200 (application/json)
+
+
+    + Body
+
+            {
+                "price": 29.99,
+                "title": "Shadow of the Tomb Raider",
+                "publisherId": 1,
+                "releaseDate": "2017-05-18T03:19:03.174Z",
+                "tags": [
+                    "action",
+                    "exploring",
+                    "female-protagonist"
+            ],
+                "id": 10
+            }
+
+### Remove an existing Game [DELETE /game/{id}]
+
++ Parameters
+    + id (required, number) - The game id
+
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "price": 29.99,
+                "title": "Shadow of the Tomb Raider",
+                "publisherId": 1,
+                "releaseDate": "2017-05-18T03:19:03.174Z",
+                "tags": [
+                    "action",
+                    "exploring",
+                    "female-protagonist"
+            ],
+                "id": 10
+            }
+### Discount and Remove Old Games [POST /game/discount-remove-old]
+
++ Response 200 (application/json)
