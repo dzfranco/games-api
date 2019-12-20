@@ -1,1 +1,9 @@
 node_modules
+.vscode/
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Ignore built ts files
+build/**/*
