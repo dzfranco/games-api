@@ -142,4 +142,20 @@ export class GameService implements IGameService {
 			throw new InternalServerError(error, error.message);
 		}
 	}
+
+	/**
+	 * @description Removes old games
+	 * @return Promise<number>
+	 * @memberof GameService
+	 */
+	public async removeOldGames(): Promise<number> {
+		try {
+			const now = new Date();
+			const lowerBound = subMonths(now, this.LOWER_BOUND_MONTHS_DISCOUNT);
+			const affected = await this.gamePersistence.removeOldGames(lowerBound);
+			return affected;
+		} catch (error) {
+			throw new InternalServerError(error, error.message);
+		}
+	}
 }

@@ -17,6 +17,7 @@ import { makeValidateBody } from 'express-class-validator';
 import { IGame } from '../../../common/models/game/igame';
 import { checkSchema, check } from 'express-validator';
 import { UpdateGameValidation, CreateGameValidation, GameListValidation } from '../../validation/game';
+import { DiscountDTO } from '../../../common/models/game/discount.dto';
 
 @controller('/game')
 class GameController extends BaseHttpController {
@@ -74,8 +75,9 @@ class GameController extends BaseHttpController {
 
 	@httpPost('/discount-remove-old')
 	public async discountAndRemoveOld(@request() req: Request, @response() res: Response, @next() next: NextFunction) {
-		const affected = await this.gameService.discountGames();
-		return affected;
+		await this.gameService.discountGames();
+		await this.gameService.removeOldGames();
+		return res.send();
 	}
 }
 
