@@ -1,4 +1,4 @@
-import { IPublisher } from '../../../server/common/models/publisher/ipublisher';
+import { IPublisher } from '../../../../server/common/models/publisher/ipublisher';
 
 export class PublisherMock implements IPublisher {
 	private id: number;
