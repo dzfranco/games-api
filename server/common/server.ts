@@ -34,6 +34,8 @@ export default class Server {
 			// Add public folder
 			app.use(express.static(`${root}/public`));
 
+			app.use(express.json());
+
 			// Add response time support
 			// This will add x-response-time to the response headers
 			app.use(responseTime({ suffix: false }));
