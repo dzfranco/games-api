@@ -109,13 +109,26 @@ export class GamePersistence implements IGamePersistence {
 	 */
 	public async discountGames(percentage: number, lowerBound: Date, upperBound: Date): Promise<number> {
 		const multiplicationFactor = this.utilsService.percengageToMultiplicationFactor(percentage);
-		const formattedLowerBound = this.utilsService.formatMySQLDate(lowerBound);
-		const formattedUpperBound = this.utilsService.formatMySQLDate(upperBound);
 		const results = await this.repository
 			.createQueryBuilder()
 			.update(Game)
 			.set({ price: () => `price * ${multiplicationFactor}` } as any)
-			.where(`releaseDate < "${formattedUpperBound}" AND releaseDate > "${formattedLowerBound}"`)
+			.where(`releaseDate < :upperBound AND releaseDate > :lowerBound`, { upperBound, lowerBound })
+			.execute();
+		return results.affected;
+	}
+
+	/**
+	 * @description Removes old games from the database, as specified by the lower bound
+	 * @param  {Date} lowerBound
+	 * @return Promise<any>
+	 * @memberof GamePersistence
+	 */
+	public async removeOldGames(lowerBound: Date): Promise<number> {
+		const results = await this.repository
+			.createQueryBuilder()
+			.delete()
+			.where(`releaseDate < :releaseDate`, { releaseDate: lowerBound })
 			.execute();
 		return results.affected;
 	}

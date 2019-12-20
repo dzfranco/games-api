@@ -9,17 +9,7 @@ import { GameFactory } from '../../utils/game-factory';
 
 @injectable()
 export class GamePersistenceMock implements IGamePersistence {
-	private games: IGame[];
-	constructor() {
-		const game1 = new Game();
-		game1.$id = 1;
-		game1.$price = 39.99;
-		game1.$tags = ['shooter'];
-		game1.$releaseDate = new Date();
-		game1.$publisher = new Publisher();
-		game1.$title = 'Red Dead Redemption 2';
-		this.games = [game1];
-	}
+	constructor() {}
 
 	/**
 	 * @description Creates a new game
@@ -108,6 +98,16 @@ export class GamePersistenceMock implements IGamePersistence {
 	 * @return {void}@memberof GamePersistence
 	 */
 	public async discountGames(percentage: number, lowerBound: Date, upperBound: Date): Promise<number> {
+		return 0;
+	}
+
+	/**
+	 * @description Removes old games from the database, as specified by the lower bound
+	 * @param  {Date} lowerBound
+	 * @return Promise<any>
+	 * @memberof GamePersistence
+	 */
+	public async removeOldGames(lowerBound: Date): Promise<number> {
 		return 0;
 	}
 }

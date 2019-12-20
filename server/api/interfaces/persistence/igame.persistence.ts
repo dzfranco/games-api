@@ -50,4 +50,12 @@ export interface IGamePersistence {
 	 * @return {void}@memberof GamePersistence
 	 */
 	discountGames(percentage: number, lowerBound: Date, upperBound: Date): Promise<number>;
+
+	/**
+	 * @description Removes old games from the database, as specified by the lower bound
+	 * @param  {Date} lowerBound
+	 * @return Promise<any>
+	 * @memberof GamePersistence
+	 */
+	removeOldGames(lowerBound: Date): Promise<number>;
 }

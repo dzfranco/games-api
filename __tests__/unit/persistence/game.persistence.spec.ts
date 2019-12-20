@@ -109,14 +109,37 @@ describe('gamePersistence', () => {
 		const dateStringUpper = '2019-10-10 03:19:03';
 		const lowerBound = new Date(dateStringLower);
 		const upperBound = new Date(dateStringUpper);
-		const whereString = `releaseDate < "${dateStringUpper}" AND releaseDate > "${dateStringLower}"`;
+		const whereString = `releaseDate < :upperBound AND releaseDate > :lowerBound`;
+		const whereMock = { lowerBound, upperBound };
 		const setMock = { price: expect.any(Function) };
 
 		await gamePersistence.discountGames(percentage, lowerBound, upperBound);
 		expect(connection.createQueryBuilder).toBeCalled();
 		expect(update).toBeCalled();
-		expect(whereSpy).toBeCalledWith(whereString);
+		expect(whereSpy).toBeCalledWith(whereString, whereMock);
 		expect(setSpy).toBeCalledWith(setMock);
+		expect(executeSpy).toBeCalled();
+	});
+
+	it('removeOldGames - Should generate the proper query', async () => {
+		// @ts-ignore
+		const connection = gamePersistence.repository;
+		const deleteSpy = jest.fn().mockReturnThis();
+		const whereSpy = jest.fn().mockReturnThis();
+		const executeSpy = jest.fn().mockReturnThis();
+		connection.createQueryBuilder = jest.fn().mockReturnValue({
+			delete: deleteSpy,
+			where: whereSpy,
+			execute: executeSpy,
+		});
+		const dateStringLower = '2018-10-10 03:19:03';
+		const lowerBound = new Date(dateStringLower);
+		const whereString = `releaseDate < :releaseDate`;
+		const whereMock = { releaseDate: lowerBound };
+		await gamePersistence.removeOldGames(lowerBound);
+		expect(connection.createQueryBuilder).toBeCalled();
+		expect(deleteSpy).toBeCalled();
+		expect(whereSpy).toBeCalledWith(whereString, whereMock);
 		expect(executeSpy).toBeCalled();
 	});
 });
