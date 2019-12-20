@@ -1,0 +1,15 @@
+{
+	"rules": {
+		"ordered-imports": false,
+		"no-console": false,
+		"no-var-requires": false,
+		"object-literal-shorthand": false,
+		"object-literal-sort-keys": false,
+		"no-implicit-dependencies": false,
+		"no-submodule-imports": false,
+		"max-classes-per-file": false,
+		"variable-name": false,
+		"adjacent-overload-signatures": false
+	},
+	"extends": ["tslint:latest", "tslint-config-prettier"]
+}

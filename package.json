@@ -1,10 +1,14 @@
 {
 	"name": "ultra-task",
 	"version": "1.0.0",
+	"license": "MIT",
 	"description": "Task for ultra",
 	"main": "index.js",
 	"scripts": {
-		"dev": "NODE_ENV=development node build.js && backpack dev --inspect=0.0.0.0:5858"
+		"dev": "NODE_ENV=development node build.js && backpack dev --inspect=0.0.0.0:5858",
+		"lint": "npm run tslint -- -o reports/lint_issues.json -t json --force \"server/**/*.ts\" ",
+		"tslint": "tslint",
+		"test": "NODE_ENV=test node build.js && npm run lint && jest --no-cache --maxWorkers=4 --forceExit --config jest.config.json --detectOpenHandles"
 	},
 	"devDependencies": {
 		"@types/dotenv": "8.2.0",
@@ -17,7 +21,7 @@
 		"awesome-typescript-loader": "^5.2.1",
 		"backpack-core": "^0.8.3",
 		"concurrently": "^5.0.0",
-		"jest": "^24.8.0",
+		"jest": "24.8.0",
 		"prettier": "1.19.1",
 		"shelljs": "^0.8.3",
 		"supertest": "^4.0.2",
