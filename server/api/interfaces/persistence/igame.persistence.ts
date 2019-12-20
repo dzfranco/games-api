@@ -25,4 +25,12 @@ export interface IGamePersistence {
 	 * @memberof GamePersistence
 	 */
 	createGame(data: IGame): Promise<IGame>;
+
+	/**
+	 * @description Updates a game
+	 * @param  {IGame} data
+	 * @return Promise<IGame>
+	 * @memberof GamePersistence
+	 */
+	updateGame(data: IGame): Promise<IGame>;
 }

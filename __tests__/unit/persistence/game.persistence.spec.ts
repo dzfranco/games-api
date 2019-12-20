@@ -3,10 +3,12 @@ import { Container } from 'inversify';
 import { Identifiers } from '../../../server/common/identifiers';
 import { IGamePersistence } from '../../../server/api/interfaces/persistence/igame.persistence';
 import { GameMock } from '../../mocks/models/game/game.mock';
+import { Game } from '../../../server/common/models/game/game';
 
 let container: Container;
 let gamePersistence: IGamePersistence;
 const findOne = jest.fn().mockReturnValue({});
+const update = jest.fn().mockReturnValue({});
 const save = jest.fn().mockReturnValue({});
 
 describe('gamePersistence', () => {
@@ -16,6 +18,7 @@ describe('gamePersistence', () => {
 			getRepository: jest.fn().mockReturnValue({
 				findOne,
 				save,
+				update,
 			}),
 		};
 		container.bind(Identifiers.DATABASE_IDENTIFIER).toConstantValue(connection);
@@ -46,5 +49,26 @@ describe('gamePersistence', () => {
 		const query = { where: { id: gameId } };
 		await gamePersistence.getGameById(gameId);
 		expect(connection.findOne).toHaveBeenNthCalledWith(1, query);
+	});
+
+	it('updateGame - Should update with the proper params', async () => {
+		// @ts-ignore
+		const connection = gamePersistence.repository;
+		const mock = new GameMock();
+		mock.$id = 1;
+		mock.$price = 1;
+		mock.$publisherId = 2;
+		mock.$releaseDate = new Date('2019-12-20T06:52:02.611Z');
+		mock.$title = 'Title';
+		mock.$tags = ['Tags'];
+		await gamePersistence.updateGame(mock);
+		const game = new Game();
+		game.$price = 1;
+		game.$publisherId = 2;
+		game.$releaseDate = new Date('2019-12-20T06:52:02.611Z');
+		game.$title = 'Title';
+		game.$tags = ['Tags'];
+		expect(connection.update).toHaveBeenCalledWith(mock.$id, game);
+		expect(connection.findOne).toBeCalledWith(mock.$id);
 	});
 });

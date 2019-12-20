@@ -5,6 +5,7 @@ import { IGamePersistence } from '../interfaces/persistence/igame.persistence';
 import { Repository, Connection } from 'typeorm';
 import { Identifiers } from '../../common/identifiers';
 import { Publisher } from '../../common/models/publisher/publisher';
+import * as partialResponse from 'express-partial-response';
 
 @injectable()
 export class GamePersistence implements IGamePersistence {
@@ -33,6 +34,25 @@ export class GamePersistence implements IGamePersistence {
 		const query = { where: { id: gameId } };
 		const foundGame = await this.repository.findOne(query);
 		return foundGame;
+	}
+
+	/**
+	 * @description Updates a game
+	 * @param  {IGame} data
+	 * @return Promise<IGame>
+	 * @memberof GamePersistence
+	 */
+	public async updateGame(data: IGame): Promise<IGame> {
+		const gameToUpdate = new Game();
+		const id = data.$id;
+		gameToUpdate.$price = data.$price;
+		gameToUpdate.$publisherId = data.$publisherId;
+		gameToUpdate.$title = data.$title;
+		gameToUpdate.$tags = data.$tags;
+		gameToUpdate.$releaseDate = data.$releaseDate;
+		await this.repository.update(id, gameToUpdate);
+		const updatedGame = await this.repository.findOne(id);
+		return updatedGame;
 	}
 
 	/**

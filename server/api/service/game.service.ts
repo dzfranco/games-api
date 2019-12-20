@@ -74,4 +74,25 @@ export class GameService implements IGameService {
 			throw new InternalServerError(error, error.message);
 		}
 	}
+
+	/**
+	 * @description Updates a game
+	 * @param  {IGame} gameData
+	 * @return Promise<IGame>
+	 * @memberof GameService
+	 */
+	public async updateGame(gameData: IGame): Promise<IGame> {
+		try {
+			const updatedGame = await this.gamePersistence.updateGame(gameData);
+			if (updatedGame === undefined) {
+				throw new NotFoundError('Game not found');
+			}
+			return updatedGame;
+		} catch (error) {
+			if (error instanceof NotFoundError) {
+				throw error;
+			}
+			throw new InternalServerError(error, error.message);
+		}
+	}
 }

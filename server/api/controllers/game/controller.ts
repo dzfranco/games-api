@@ -1,4 +1,13 @@
-import { request, controller, BaseHttpController, httpGet, response, next, httpPost } from 'inversify-express-utils';
+import {
+	request,
+	controller,
+	BaseHttpController,
+	httpGet,
+	response,
+	next,
+	httpPost,
+	httpPut,
+} from 'inversify-express-utils';
 import { Request, Response, NextFunction } from 'express';
 import { IGameService } from '../../interfaces/service/igame.service';
 import { inject } from 'inversify';
@@ -6,6 +15,7 @@ import { Identifiers } from '../../../common/identifiers';
 import { makeValidateBody } from 'express-class-validator';
 import { CreateGameValidation } from '../../validation/game/create-game';
 import { IGame } from '../../../common/models/game/igame';
+import { UpdateGameValidation } from '../../validation/game/update-game';
 
 @controller('/game')
 class GameController extends BaseHttpController {
@@ -27,6 +37,18 @@ class GameController extends BaseHttpController {
 		try {
 			const plainData = req.body as IGame;
 			const savedGame = await this.gameService.saveGame(plainData);
+			return res.send(savedGame);
+		} catch (error) {
+			throw error;
+		}
+	}
+
+	@httpPut('/:id([0-9]{1,6})', makeValidateBody(UpdateGameValidation))
+	public async updateGame(@request() req: Request, @response() res: Response, @next() next: NextFunction) {
+		try {
+			const plainData = req.body as IGame;
+			plainData.$id = Number.parseInt(req.params.id);
+			const savedGame = await this.gameService.updateGame(plainData);
 			return res.send(savedGame);
 		} catch (error) {
 			throw error;

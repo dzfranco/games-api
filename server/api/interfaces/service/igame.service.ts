@@ -24,4 +24,12 @@ export interface IGameService {
 	 * @memberof GameService
 	 */
 	getGamePublisher(gameId: number): Promise<IPublisher>;
+
+	/**
+	 * @description Updates a game
+	 * @param  {IGame} gameData
+	 * @return Promise<IGame>
+	 * @memberof GameService
+	 */
+	updateGame(gameData: IGame): Promise<IGame>;
 }

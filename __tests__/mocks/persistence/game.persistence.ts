@@ -38,6 +38,23 @@ export class GamePersistenceMock implements IGamePersistence {
 	}
 
 	/**
+	 * @description Updates a game
+	 * @param  {IGame} data
+	 * @return Promise<IGame>
+	 * @memberof GamePersistence
+	 */
+	public async updateGame(data: IGame): Promise<IGame> {
+		const game1 = new Game();
+		game1.$id = 1;
+		game1.$price = 39.99;
+		game1.$tags = ['shooter'];
+		game1.$releaseDate = new Date();
+		game1.$publisherId = 1;
+		game1.$title = 'Red Dead Redemption 2';
+		return game1;
+	}
+
+	/**
 	 * @description Gets a game given its id
 	 * @param  {number} gameId
 	 * @return Promise<IGame>
