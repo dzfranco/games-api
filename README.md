@@ -2,6 +2,12 @@
 
 This repo is part of a test for someone
 
+- [My Microservice](#my-microservice)
+  - [About this repo](#about-this-repo)
+  - [Starting this project](#starting-this-project)
+  - [Endpoints](#endpoints)
+  - [Other Goodies](#other-goodies)
+
 ## About this repo
 
 This repo uses the following technologies
@@ -30,7 +36,7 @@ That should start MySQL and the project. You could also run the following and ru
 
 ## Endpoints
 
-The endpoints can be found [here](danielfranco.docs.apiary.io)
+The endpoints can be found [here]([danielfranco.docs.apiary.io](https://danielfranco.docs.apiary.io/#reference))
 
 ## Other Goodies
 
