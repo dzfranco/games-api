@@ -8,7 +8,8 @@ import { GameMock } from '../../mocks/models/game/game.mock';
 import { GameService } from '../../../server/api/service/game.service';
 import { IGame } from '../../../server/common/models/game/igame';
 import { InternalServerError } from 'restify-errors';
-import { Publisher } from '../../../server/common/models/publisher/publisher';
+import { IPublisherPersistence } from '../../../server/api/interfaces/persistence/ipublisher.persistence';
+import { PublisherPersistenceMock } from '../persistence/publisher.persistence';
 
 let container: Container;
 let service: IGameService;
@@ -17,8 +18,12 @@ let persistence: IGamePersistence;
 describe('Game Service Unit Tests', () => {
 	beforeEach(() => {
 		container = IOCContainer.getInstance().$container;
+		container.unbind(Identifiers.PUBLISHER_PERSISTENCE_IDENTIFIER);
 		container.unbind(Identifiers.GAME_PERSISTENCE_IDENTIFIER);
 		container.bind<IGamePersistence>(Identifiers.GAME_PERSISTENCE_IDENTIFIER).to(GamePersistenceMock);
+		container
+			.bind<IPublisherPersistence>(Identifiers.PUBLISHER_PERSISTENCE_IDENTIFIER)
+			.to(PublisherPersistenceMock);
 		persistence = container.get(Identifiers.GAME_PERSISTENCE_IDENTIFIER);
 	});
 
