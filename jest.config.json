@@ -6,7 +6,7 @@
 	"testMatch": ["/**/*.spec.(ts)"],
 	"testEnvironment": "node",
 	"collectCoverage": true,
-	"coverageReporters": ["lcov"],
+	"coverageReporters": ["text", "lcov"],
 	"coverageDirectory": "coverage",
-	"collectCoverageFrom": ["**/server/**/*.{ts}", "!**/node_modules/**", "!**/build/**"]
+	"collectCoverageFrom": ["**/server/**/*.ts", "!**/node_modules/**", "!**/build/**"]
 }
