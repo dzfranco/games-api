@@ -44,9 +44,11 @@
 		"express-partial-response": "1.0.0",
 		"inversify": "5.0.1",
 		"inversify-express-utils": "6.3.2",
+		"mysql2": "^2.0.2",
 		"path": "0.12.7",
 		"reflect-metadata": "0.1.13",
 		"response-time": "2.3.2",
-		"restify-errors": "^8.0.2"
+		"restify-errors": "^8.0.2",
+		"typeorm": "^0.2.21"
 	}
 }
