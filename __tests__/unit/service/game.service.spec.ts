@@ -4,20 +4,46 @@ import { Identifiers } from '../../../server/common/identifiers';
 import { IGamePersistence } from '../../../server/api/interfaces/persistence/igame.persistence';
 import { GamePersistenceMock } from '../../mocks/persistence/game.persistence';
 import { IGameService } from '../../../server/api/interfaces/service/igame.service';
+import { GameMock } from '../../mocks/models/game/game.mock';
+import { GameService } from '../../../server/api/service/game.service';
+import { IGame } from '../../../server/common/models/game/igame';
+import { InternalServerError } from 'restify-errors';
 
 let container: Container;
 let service: IGameService;
+let persistence: IGamePersistence;
 
 describe('Game Service Unit Tests', () => {
-	beforeAll(() => {
+	beforeEach(() => {
 		container = IOCContainer.getInstance().$container;
 		container.unbind(Identifiers.GAME_PERSISTENCE_IDENTIFIER);
 		container.bind<IGamePersistence>(Identifiers.GAME_PERSISTENCE_IDENTIFIER).to(GamePersistenceMock);
-		service = container.get(Identifiers.GAME_SERVICE_IDENTIFIER);
+		persistence = container.get(Identifiers.GAME_PERSISTENCE_IDENTIFIER);
 	});
 
 	it('getGames - Should return games', () => {
+		service = container.get(Identifiers.GAME_SERVICE_IDENTIFIER);
 		const games = service.getGames('1', 1);
 		expect(games.length).toBe(1);
+	});
+
+	it('saveGame - Gracefully handles error', async () => {
+		const spy = jest.spyOn(persistence, 'createGame').mockImplementation(async (data: IGame) => {
+			throw new Error('Error');
+		});
+		container.unbind(Identifiers.GAME_PERSISTENCE_IDENTIFIER);
+		container.unbind(Identifiers.GAME_SERVICE_IDENTIFIER);
+		container.bind<IGamePersistence>(Identifiers.GAME_PERSISTENCE_IDENTIFIER).toConstantValue(persistence);
+		container.bind<IGameService>(Identifiers.GAME_SERVICE_IDENTIFIER).to(GameService);
+		service = container.get(Identifiers.GAME_SERVICE_IDENTIFIER);
+		const mock = new GameMock();
+		mock.$id = 1;
+		mock.$price = 9.99;
+		mock.$releaseDate = new Date('2019-12-20T03:19:03.174Z');
+		mock.$tags = ['fighting'];
+		mock.$publisher = 1;
+		mock.$title = 'Street fighter';
+		await expect(service.saveGame(mock)).rejects.toBeInstanceOf(InternalServerError);
+		expect(spy).toHaveBeenCalled();
 	});
 });

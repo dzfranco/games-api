@@ -8,7 +8,7 @@
 		"dev": "NODE_ENV=development node build.js && backpack dev --inspect=0.0.0.0:5858",
 		"lint": "npm run tslint -- -o reports/lint_issues.json -t json --force \"server/**/*.ts\" ",
 		"tslint": "tslint",
-		"test": "NODE_ENV=test node build.js && npm run lint && jest --no-cache --maxWorkers=4 --forceExit --config jest.config.json --detectOpenHandles"
+		"test": "NODE_ENV=test node build.js && npm run lint && jest --no-cache --maxWorkers=4 --forceExit --config jest.config.json --detectOpenHandles --coverage"
 	},
 	"devDependencies": {
 		"@types/dotenv": "8.2.0",
@@ -37,12 +37,14 @@
 		"yarn": "1.21.1"
 	},
 	"dependencies": {
+		"@types/faker": "^4.1.8",
 		"@types/restify-errors": "^4.3.3",
 		"dotenv": "8.2.0",
 		"express": "4.17.1",
 		"express-class-validator": "^1.0.3",
 		"express-error-handler": "^1.1.0",
 		"express-partial-response": "1.0.0",
+		"faker": "^4.1.0",
 		"inversify": "5.0.1",
 		"inversify-express-utils": "6.3.2",
 		"mysql2": "^2.0.2",
@@ -54,5 +56,31 @@
 	},
 	"peerDependencies": {
 		"class-validator": "0.11.0"
+	},
+	"jest": {
+		"moduleFileExtensions": [
+			"js",
+			"jsx",
+			"json",
+			"ts",
+			"tsx"
+		],
+		"transform": {
+			"^.+\\.(ts|tsx)$": "ts-jest"
+		},
+		"testMatch": [
+			"/**/*.spec.(ts)"
+		],
+		"testEnvironment": "node",
+		"collectCoverage": true,
+		"coverageReporters": [
+			"lcov"
+		],
+		"coverageDirectory": "coverage",
+		"collectCoverageFrom": [
+			"**/server/**/*.{ts}",
+			"!**/node_modules/**",
+			"!**/build/**"
+		]
 	}
 }

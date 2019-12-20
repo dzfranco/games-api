@@ -14,27 +14,13 @@ import { GameService } from '../../api/service/game.service';
  * This will be a signleton that sets up Inversify's container bindings
  */
 export class IOCContainer {
-	private static instance: IOCContainer;
-	private container: Container;
-
-	public get $container(): Container {
-		return this.container;
-	}
-
-	public set $container(container: Container) {
-		this.container = container;
-	}
-
 	public static getInstance() {
 		if (!IOCContainer.instance) {
 			IOCContainer.instance = new IOCContainer();
 			const container = new Container();
 
 			// Inject persistence
-			container
-				.bind<IGamePersistence>(Identifiers.GAME_PERSISTENCE_IDENTIFIER)
-				.to(GamePersistence)
-				.inSingletonScope();
+			container.bind<IGamePersistence>(Identifiers.GAME_PERSISTENCE_IDENTIFIER).to(GamePersistence);
 
 			// Inject Service
 			container
@@ -46,5 +32,16 @@ export class IOCContainer {
 		}
 
 		return IOCContainer.instance;
+	}
+
+	private static instance: IOCContainer;
+	private container: Container;
+
+	public get $container(): Container {
+		return this.container;
+	}
+
+	public set $container(container: Container) {
+		this.container = container;
 	}
 }
