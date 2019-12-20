@@ -48,7 +48,7 @@ class GameController extends BaseHttpController {
 		try {
 			const plainData = req.body as IGame;
 			const savedGame = await this.gameService.saveGame(plainData);
-			return res.send(savedGame);
+			return res.status(201).send(savedGame);
 		} catch (error) {
 			throw error;
 		}
