@@ -85,4 +85,21 @@ export class GamePersistenceMock implements IGamePersistence {
 		}
 		return this.games.slice(0, limit);
 	}
+
+	/**
+	 * @description Gets a game given its id
+	 * @param  {number} gameId
+	 * @return Promise<IGame>
+	 * @memberof GamePersistenceMock
+	 */
+	public async removeGame(gameId: number): Promise<IGame> {
+		const game1 = new Game();
+		game1.$id = 1;
+		game1.$price = 39.99;
+		game1.$tags = ['shooter'];
+		game1.$releaseDate = new Date();
+		game1.$publisherId = 1;
+		game1.$title = 'Red Dead Redemption 2';
+		return game1;
+	}
 }

@@ -33,4 +33,12 @@ export interface IGamePersistence {
 	 * @memberof GamePersistence
 	 */
 	updateGame(data: IGame): Promise<IGame>;
+
+	/**
+	 * @description Removes a game
+	 * @param  {number} id
+	 * @return Promise<IGame>
+	 * @memberof GamePersistence
+	 */
+	removeGame(id: number): Promise<IGame>;
 }

@@ -4,12 +4,14 @@ import { Identifiers } from '../../../server/common/identifiers';
 import { IGamePersistence } from '../../../server/api/interfaces/persistence/igame.persistence';
 import { GameMock } from '../../mocks/models/game/game.mock';
 import { Game } from '../../../server/common/models/game/game';
+import { GameFactory } from '../../utils/game-factory';
 
 let container: Container;
 let gamePersistence: IGamePersistence;
 const findOne = jest.fn().mockReturnValue({});
 const update = jest.fn().mockReturnValue({});
 const save = jest.fn().mockReturnValue({});
+const remove = jest.fn().mockReturnValue({});
 
 describe('gamePersistence', () => {
 	beforeAll(() => {
@@ -19,6 +21,7 @@ describe('gamePersistence', () => {
 				findOne,
 				save,
 				update,
+				remove,
 			}),
 		};
 		container.bind(Identifiers.DATABASE_IDENTIFIER).toConstantValue(connection);
@@ -26,6 +29,10 @@ describe('gamePersistence', () => {
 
 	beforeEach(() => {
 		gamePersistence = container.get(Identifiers.GAME_PERSISTENCE_IDENTIFIER);
+		jest.restoreAllMocks();
+	});
+
+	afterEach(() => {
 		jest.restoreAllMocks();
 	});
 
@@ -70,5 +77,16 @@ describe('gamePersistence', () => {
 		game.$tags = ['Tags'];
 		expect(connection.update).toHaveBeenCalledWith(mock.$id, game);
 		expect(connection.findOne).toBeCalledWith(mock.$id);
+	});
+
+	it('removeGame - Should find and remove the game', async () => {
+		// @ts-ignore
+		const connection = gamePersistence.repository;
+		const gameId = 1;
+		const mock = GameFactory.createGame(gameId);
+		connection.findOne = jest.fn().mockReturnValue(mock);
+		await gamePersistence.removeGame(gameId);
+		expect(connection.findOne).toHaveBeenCalledWith(mock.$id);
+		expect(connection.remove).toBeCalledWith(mock);
 	});
 });

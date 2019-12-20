@@ -25,6 +25,21 @@ export class GamePersistence implements IGamePersistence {
 	}
 
 	/**
+	 * @description Gets the games depending on a cursor
+	 * @param  {string} cursor
+	 * @param  {number} limit
+	 * @return IGame[]
+	 * @memberof GamePersistence
+	 */
+	public getGames(cursor: string, limit: number): IGame[] {
+		const cursorIndex = this.games.findIndex(game => game.$id.toString() === cursor);
+		if (cursorIndex >= 0) {
+			return this.games.slice(cursorIndex, limit);
+		}
+		return this.games.slice(0, limit);
+	}
+
+	/**
 	 * @description Gets a game given its id
 	 * @param  {number} gameId
 	 * @return Promise<IGame>
@@ -34,6 +49,23 @@ export class GamePersistence implements IGamePersistence {
 		const query = { where: { id: gameId } };
 		const foundGame = await this.repository.findOne(query);
 		return foundGame;
+	}
+
+	/**
+	 * @description Creates a new game
+	 * @param  {IGame} data
+	 * @return Promise<IGame>
+	 * @memberof GamePersistence
+	 */
+	public async createGame(data: IGame): Promise<IGame> {
+		const game = new Game();
+		game.$price = data.$price;
+		game.$title = data.$title;
+		game.$publisherId = data.$publisherId;
+		game.$releaseDate = data.$releaseDate;
+		game.$tags = data.$tags;
+		const savedGame = await this.repository.save(game);
+		return savedGame;
 	}
 
 	/**
@@ -56,34 +88,14 @@ export class GamePersistence implements IGamePersistence {
 	}
 
 	/**
-	 * @description Creates a new game
-	 * @param  {IGame} data
+	 * @description Removes a game
+	 * @param  {number} id
 	 * @return Promise<IGame>
 	 * @memberof GamePersistence
 	 */
-	public async createGame(data: IGame): Promise<IGame> {
-		const game = new Game();
-		game.$price = data.$price;
-		game.$title = data.$title;
-		game.$publisherId = data.$publisherId;
-		game.$releaseDate = data.$releaseDate;
-		game.$tags = data.$tags;
-		const savedGame = await this.repository.save(game);
-		return savedGame;
-	}
-
-	/**
-	 * @description Gets the games depending on a cursor
-	 * @param  {string} cursor
-	 * @param  {number} limit
-	 * @return IGame[]
-	 * @memberof GamePersistence
-	 */
-	public getGames(cursor: string, limit: number): IGame[] {
-		const cursorIndex = this.games.findIndex(game => game.$id.toString() === cursor);
-		if (cursorIndex >= 0) {
-			return this.games.slice(cursorIndex, limit);
-		}
-		return this.games.slice(0, limit);
+	public async removeGame(id: number): Promise<IGame> {
+		const toRemove = await this.repository.findOne(id);
+		const removed = await this.repository.remove(toRemove);
+		return removed;
 	}
 }
