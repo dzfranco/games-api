@@ -7,7 +7,7 @@
 	"scripts": {
 		"compile-native:stg": "cross-env NODE_ENV=staging node build.js && tsc",
 		"compile-native:prod": "cross-env NODE_ENV=production node build.js && tsc",
-		"dev": "npm install && NODE_ENV=development node build.js && backpack dev --inspect=0.0.0.0:5858",
+		"dev": "yarn install && NODE_ENV=development node build.js && backpack dev --inspect=0.0.0.0:5858",
 		"lint": "npm run tslint -- -o reports/lint_issues.json -t json --force \"server/**/*.ts\" ",
 		"tslint": "tslint",
 		"test": "NODE_ENV=test node build.js && npm run lint && jest --no-cache --maxWorkers=4 --forceExit --config jest.config.json --detectOpenHandles --coverage"
