@@ -5,6 +5,8 @@
 	"description": "Task for ultra",
 	"main": "index.js",
 	"scripts": {
+		"compile-native:stg": "cross-env NODE_ENV=staging node build.js && tsc",
+		"compile-native:prod": "cross-env NODE_ENV=production node build.js && tsc",
 		"dev": "NODE_ENV=development node build.js && backpack dev --inspect=0.0.0.0:5858",
 		"lint": "npm run tslint -- -o reports/lint_issues.json -t json --force \"server/**/*.ts\" ",
 		"tslint": "tslint",
