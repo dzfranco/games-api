@@ -1,5 +1,6 @@
 import { IGame } from './igame';
-import { PrimaryGeneratedColumn, Column, Entity } from 'typeorm';
+import { PrimaryGeneratedColumn, Column, Entity, OneToOne, JoinColumn } from 'typeorm';
+import { Publisher } from '../publisher/publisher';
 
 @Entity('game')
 export class Game implements IGame {
@@ -9,7 +10,8 @@ export class Game implements IGame {
 	private title: string;
 	@Column('double')
 	private price: number;
-
+	@OneToOne(type => Publisher)
+	@JoinColumn()
 	private publisher: number;
 	@Column('simple-array')
 	private tags: string[];

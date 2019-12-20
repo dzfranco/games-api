@@ -2,6 +2,7 @@ import { interfaces, AsyncContainerModule } from 'inversify';
 import { createConnection, Connection } from 'typeorm';
 import { Identifiers } from '../identifiers';
 import { Game } from '../models/game/game';
+import { Publisher } from '../models/publisher/publisher';
 
 export const DatabaseConnection = new AsyncContainerModule(async (bind: interfaces.Bind) => {
 	try {
@@ -12,7 +13,7 @@ export const DatabaseConnection = new AsyncContainerModule(async (bind: interfac
 			port: Number.parseInt(process.env.MYSQL_PORT, 10),
 			password: process.env.MYSQL_PASSWORD,
 			database: process.env.MYSQL_DATABASE,
-			entities: [Game],
+			entities: [Game, Publisher],
 		});
 		await connection.synchronize();
 		console.log('Connected to MYSQL');
