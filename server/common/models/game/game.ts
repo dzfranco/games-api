@@ -1,11 +1,19 @@
 import { IGame } from './igame';
+import { PrimaryGeneratedColumn, Column, Entity } from 'typeorm';
 
+@Entity('game')
 export class Game implements IGame {
+	@PrimaryGeneratedColumn()
 	private id: number;
+	@Column({ length: 150 })
 	private title: string;
+	@Column('double')
 	private price: number;
+
 	private publisher: number;
+	@Column('simple-array')
 	private tags: string[];
+	@Column()
 	private releaseDate: Date;
 
 	/**
