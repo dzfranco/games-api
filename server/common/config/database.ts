@@ -14,6 +14,7 @@ export const DatabaseConnection = new AsyncContainerModule(async (bind: interfac
 			database: process.env.MYSQL_DATABASE,
 			entities: [Game],
 		});
+		await connection.synchronize();
 		console.log('Connected to MYSQL');
 		bind<Connection>(Identifiers.DATABASE_IDENTIFIER).toConstantValue(connection);
 	} catch (error) {
