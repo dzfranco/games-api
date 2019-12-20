@@ -21,7 +21,7 @@ export default class Server {
 		root = process.env.NODE_ENV === 'development' ? path.normalize(__dirname + '/../..') : path.normalize('.');
 		const container = IOCContainer.getInstance().$container;
 		this.server = new InversifyExpressServer(container, undefined, {
-			rootPath: '/api',
+			rootPath: '/',
 		});
 		this.server.setConfig(app => {
 			app.use((req, res, next) => {
