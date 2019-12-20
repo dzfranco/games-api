@@ -9,6 +9,8 @@ import { IGameService } from '../../api/interfaces/service/igame.service';
 import { GameService } from '../../api/service/game.service';
 import { IPublisherPersistence } from '../../api/interfaces/persistence/ipublisher.persistence';
 import { PublisherPersistence } from '../../api/persistence/publisher.persistence';
+import { IUtilsService } from '../../api/interfaces/service/iutils.service';
+import { UtilsService } from '../../api/service/utils.service';
 
 /**
  * @description Inversion of Control Container
@@ -32,6 +34,8 @@ export class IOCContainer {
 				.bind<IGameService>(Identifiers.GAME_SERVICE_IDENTIFIER)
 				.to(GameService)
 				.inSingletonScope();
+
+			container.bind<IUtilsService>(Identifiers.UTILS_SERVICE_IDENTIFIER).to(UtilsService);
 
 			IOCContainer.instance.container = container;
 		}

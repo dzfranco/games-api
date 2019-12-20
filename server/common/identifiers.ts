@@ -8,4 +8,7 @@ export class Identifiers {
 
 	// Publisher
 	public static PUBLISHER_PERSISTENCE_IDENTIFIER = Symbol.for('publisher_persistence');
+
+	// Utils
+	public static UTILS_SERVICE_IDENTIFIER = Symbol.for('utils_service');
 }
