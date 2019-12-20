@@ -10,3 +10,5 @@ build
 
 # Ignore test coverage data
 coverage
+
+reports
