@@ -99,4 +99,15 @@ export class GamePersistenceMock implements IGamePersistence {
 		game1.$title = 'Red Dead Redemption 2';
 		return game1;
 	}
+
+	/**
+	 * @description Discounts games in the upper and lower bounds
+	 * @param  {number} percentage
+	 * @param  {Date} lowerBound
+	 * @param  {Date} upperBound
+	 * @return {void}@memberof GamePersistence
+	 */
+	public async discountGames(percentage: number, lowerBound: Date, upperBound: Date): Promise<number> {
+		return 0;
+	}
 }

@@ -40,4 +40,11 @@ export interface IGameService {
 	 * @memberof GameService
 	 */
 	removeGame(gameId: number): Promise<IGame>;
+
+	/**
+	 * @description Discounts old games
+	 * @return Promise<number>
+	 * @memberof GameService
+	 */
+	discountGames(): Promise<number>;
 }

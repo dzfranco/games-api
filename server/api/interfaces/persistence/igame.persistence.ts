@@ -41,4 +41,13 @@ export interface IGamePersistence {
 	 * @memberof GamePersistence
 	 */
 	removeGame(id: number): Promise<IGame>;
+
+	/**
+	 * @description Discounts games in the upper and lower bounds
+	 * @param  {number} percentage
+	 * @param  {Date} lowerBound
+	 * @param  {Date} upperBound
+	 * @return {void}@memberof GamePersistence
+	 */
+	discountGames(percentage: number, lowerBound: Date, upperBound: Date): Promise<number>;
 }

@@ -71,6 +71,12 @@ class GameController extends BaseHttpController {
 		const publisher = await this.gameService.getGamePublisher(id);
 		return publisher;
 	}
+
+	@httpPost('/discount-remove-old')
+	public async discountAndRemoveOld(@request() req: Request, @response() res: Response, @next() next: NextFunction) {
+		const affected = await this.gameService.discountGames();
+		return affected;
+	}
 }
 
 export default GameController;

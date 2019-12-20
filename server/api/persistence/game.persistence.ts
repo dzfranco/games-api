@@ -1,15 +1,22 @@
 import { injectable, inject } from 'inversify';
+import { format } from 'date-fns';
 import { IGame } from '../../common/models/game/igame';
 import { Game } from '../../common/models/game/game';
 import { IGamePersistence } from '../interfaces/persistence/igame.persistence';
 import { Repository, Connection } from 'typeorm';
 import { Identifiers } from '../../common/identifiers';
+import { IUtilsService } from '../interfaces/service/iutils.service';
 
 @injectable()
 export class GamePersistence implements IGamePersistence {
 	private repository: Repository<Game>;
+	private utilsService: IUtilsService;
 
-	constructor(@inject(Identifiers.DATABASE_IDENTIFIER) $connection: Connection) {
+	constructor(
+		@inject(Identifiers.UTILS_SERVICE_IDENTIFIER) $utilsService: IUtilsService,
+		@inject(Identifiers.DATABASE_IDENTIFIER) $connection: Connection
+	) {
+		this.utilsService = $utilsService;
 		this.repository = $connection.getRepository(Game);
 	}
 
@@ -91,5 +98,25 @@ export class GamePersistence implements IGamePersistence {
 		const toRemove = await this.repository.findOne(id);
 		const removed = await this.repository.remove(toRemove);
 		return removed;
+	}
+
+	/**
+	 * @description Discounts games in the upper and lower bounds
+	 * @param  {number} percentage
+	 * @param  {Date} lowerBound
+	 * @param  {Date} upperBound
+	 * @return {void}@memberof GamePersistence
+	 */
+	public async discountGames(percentage: number, lowerBound: Date, upperBound: Date): Promise<number> {
+		const multiplicationFactor = this.utilsService.percengageToMultiplicationFactor(percentage);
+		const formattedLowerBound = this.utilsService.formatMySQLDate(lowerBound);
+		const formattedUpperBound = this.utilsService.formatMySQLDate(upperBound);
+		const results = await this.repository
+			.createQueryBuilder()
+			.update(Game)
+			.set({ price: () => `price * ${multiplicationFactor}` } as any)
+			.where(`releaseDate < "${formattedUpperBound}" AND releaseDate > "${formattedLowerBound}"`)
+			.execute();
+		return results.affected;
 	}
 }

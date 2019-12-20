@@ -89,4 +89,34 @@ describe('gamePersistence', () => {
 		expect(connection.findOne).toHaveBeenCalledWith(mock.$id);
 		expect(connection.remove).toBeCalledWith(mock);
 	});
+
+	it('discountGames - Should generate the proper query', async () => {
+		// @ts-ignore
+		const connection = gamePersistence.repository;
+		const updateSpy = jest.fn().mockReturnThis();
+		const setSpy = jest.fn().mockReturnThis();
+		const whereSpy = jest.fn().mockReturnThis();
+		const executeSpy = jest.fn().mockReturnThis();
+
+		connection.createQueryBuilder = jest.fn().mockReturnValue({
+			update: updateSpy,
+			set: setSpy,
+			where: whereSpy,
+			execute: executeSpy,
+		});
+		const percentage = 80;
+		const dateStringLower = '2018-10-10 03:19:03';
+		const dateStringUpper = '2019-10-10 03:19:03';
+		const lowerBound = new Date(dateStringLower);
+		const upperBound = new Date(dateStringUpper);
+		const whereString = `releaseDate < "${dateStringUpper}" AND releaseDate > "${dateStringLower}"`;
+		const setMock = { price: expect.any(Function) };
+
+		await gamePersistence.discountGames(percentage, lowerBound, upperBound);
+		expect(connection.createQueryBuilder).toBeCalled();
+		expect(update).toBeCalled();
+		expect(whereSpy).toBeCalledWith(whereString);
+		expect(setSpy).toBeCalledWith(setMock);
+		expect(executeSpy).toBeCalled();
+	});
 });

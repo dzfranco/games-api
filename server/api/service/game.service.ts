@@ -6,11 +6,16 @@ import { Identifiers } from '../../common/identifiers';
 import { InternalServerError, NotFoundError } from 'restify-errors';
 import { IPublisherPersistence } from '../interfaces/persistence/ipublisher.persistence';
 import { IPublisher } from '../../common/models/publisher/ipublisher';
+import { subMonths } from 'date-fns';
 
 @injectable()
 export class GameService implements IGameService {
 	private gamePersistence: IGamePersistence;
 	private publisherPersistence: IPublisherPersistence;
+
+	private readonly OLD_GAME_DISCOUNT_PERCENTAGE = 20;
+	private readonly UPPER_BOUND_MONTHS_DISCOUNT = 12;
+	private readonly LOWER_BOUND_MONTHS_DISCOUNT = 18;
 
 	constructor(
 		@inject(Identifiers.GAME_PERSISTENCE_IDENTIFIER) $gamePersistence: IGamePersistence,
@@ -113,6 +118,27 @@ export class GameService implements IGameService {
 			if (error instanceof NotFoundError) {
 				throw error;
 			}
+			throw new InternalServerError(error, error.message);
+		}
+	}
+
+	/**
+	 * @description Discounts old games
+	 * @return Promise<number>
+	 * @memberof GameService
+	 */
+	public async discountGames(): Promise<number> {
+		try {
+			const now = new Date();
+			const lowerBound = subMonths(now, this.LOWER_BOUND_MONTHS_DISCOUNT);
+			const upperBound = subMonths(now, this.UPPER_BOUND_MONTHS_DISCOUNT);
+			const affected = await this.gamePersistence.discountGames(
+				this.OLD_GAME_DISCOUNT_PERCENTAGE,
+				lowerBound,
+				upperBound
+			);
+			return affected;
+		} catch (error) {
 			throw new InternalServerError(error, error.message);
 		}
 	}
