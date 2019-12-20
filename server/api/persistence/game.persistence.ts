@@ -43,11 +43,11 @@ export class GamePersistence implements IGamePersistence {
 	 */
 	public async createGame(data: IGame): Promise<IGame> {
 		const game = new Game();
-		game.$price = 9.99;
-		game.$title = 'Test';
-		game.$publisher = new Publisher();
-		game.$releaseDate = new Date();
-		game.$tags = ['testing', 'game'];
+		game.$price = data.$price;
+		game.$title = data.$title;
+		game.$publisherId = data.$publisherId;
+		game.$releaseDate = data.$releaseDate;
+		game.$tags = data.$tags;
 		const savedGame = await this.repository.save(game);
 		return savedGame;
 	}

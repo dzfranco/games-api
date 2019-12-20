@@ -15,7 +15,7 @@ export class CreateGameValidation implements Partial<IGame> {
 	@IsArray()
 	private tags: string[];
 	@IsDateString()
-	private date: Date;
+	private releaseDate: Date;
 
 	/**
 	 * Getter $title
@@ -82,18 +82,18 @@ export class CreateGameValidation implements Partial<IGame> {
 	}
 
 	/**
-	 * Getter $date
+	 * Getter $releaseDate
 	 * @return {Date}
 	 */
-	public get $date(): Date {
-		return this.date;
+	public get $releaseDate(): Date {
+		return this.releaseDate;
 	}
 
 	/**
-	 * Setter $date
+	 * Setter $releaseDate
 	 * @param {Date} value
 	 */
-	public set $date(value: Date) {
-		this.date = value;
+	public set $releaseDate(value: Date) {
+		this.releaseDate = value;
 	}
 }
