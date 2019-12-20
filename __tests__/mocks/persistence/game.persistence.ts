@@ -20,6 +20,23 @@ export class GamePersistenceMock implements IGamePersistence {
 	}
 
 	/**
+	 * @description Creates a new game
+	 * @param  {IGame} data
+	 * @return Promise<IGame>
+	 * @memberof GamePersistence
+	 */
+	public async createGame(data: IGame): Promise<IGame> {
+		const game1 = new Game();
+		game1.$id = 1;
+		game1.$price = 39.99;
+		game1.$tags = ['shooter'];
+		game1.$releaseDate = new Date();
+		game1.$publisher = 1;
+		game1.$title = 'Red Dead Redemption 2';
+		return game1;
+	}
+
+	/**
 	 * @description Gets the games depending on a cursor
 	 * @param  {string} cursor
 	 * @param  {number} limit

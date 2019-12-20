@@ -9,4 +9,12 @@ export interface IGamePersistence {
 	 * @memberof GamePersistence
 	 */
 	getGames(cursor: string, limit: number): IGame[];
+
+	/**
+	 * @description Creates a new game
+	 * @param  {IGame} data
+	 * @return Promise<IGame>
+	 * @memberof GamePersistence
+	 */
+	createGame(data: IGame): Promise<IGame>;
 }

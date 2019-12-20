@@ -3,6 +3,7 @@ import { IGameService } from '../interfaces/service/igame.service';
 import { IGame } from '../../common/models/game/igame';
 import { IGamePersistence } from '../interfaces/persistence/igame.persistence';
 import { Identifiers } from '../../common/identifiers';
+import { InternalServerError } from 'restify-errors';
 
 @injectable()
 export class GameService implements IGameService {
@@ -10,6 +11,21 @@ export class GameService implements IGameService {
 
 	constructor(@inject(Identifiers.GAME_PERSISTENCE_IDENTIFIER) $gamePersistence: IGamePersistence) {
 		this.gamePersistence = $gamePersistence;
+	}
+
+	/**
+	 * @description
+	 * @param  {IGame} gameData
+	 * @return Promise<IGame>
+	 * @memberof GameService
+	 */
+	public async saveGame(gameData: IGame): Promise<IGame> {
+		try {
+			const savedGame = await this.gamePersistence.createGame(gameData);
+			return savedGame;
+		} catch (error) {
+			throw new InternalServerError(error, error.message);
+		}
 	}
 
 	/**
