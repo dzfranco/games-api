@@ -28,11 +28,13 @@ To develop this project you can use Docker Compose and run the following command
 $ docker-compose up
 ```
 
-That should start MySQL and the project. You could also run the following and run the container with an active MySQL Database
+That should start MySQL and the project. You could also run the following and run the container with an active MySQL Database.
 
 ```bash
  docker build -f ./Docker/Dockerfile.staging -t myContainer .
 ```
+
+This option should take into account the variables on the `staging.env` file.
 
 ## Endpoints
 

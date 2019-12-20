@@ -1,13 +1,10 @@
-FROM node:carbon AS build
+FROM node:10.18.0 AS build
 
 # Create app directory
 RUN mkdir -p /var/www
 RUN mkdir -p /var/www/logs
 RUN mkdir -p /var/www/tmp
 WORKDIR /var/www
-
-# Install yarn and pm2
-RUN npm install -g yarn
 
 
 # BUILD PROJECT
@@ -19,7 +16,7 @@ COPY package.json var/www/build
 
 
 #Layer 2, copy the project files and run
-FROM node:carbon
+FROM node:10.18.0
 # Copy from previous layer
 COPY --from=build /var/www/build  /var/www/
 COPY --from=build /var/www/node_modules /var/www/node_modules
