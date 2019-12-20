@@ -37,7 +37,7 @@
 		"yarn": "1.21.1"
 	},
 	"dependencies": {
-		"@types/faker": "^4.1.8",
+		"@types/faker": "^4.1.0",
 		"@types/restify-errors": "^4.3.3",
 		"dotenv": "8.2.0",
 		"express": "4.17.1",
