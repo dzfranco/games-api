@@ -44,6 +44,7 @@
 		"express-class-validator": "^1.0.3",
 		"express-error-handler": "^1.1.0",
 		"express-partial-response": "1.0.0",
+		"express-validator": "^6.3.0",
 		"faker": "^4.1.0",
 		"inversify": "5.0.1",
 		"inversify-express-utils": "6.3.2",

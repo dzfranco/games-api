@@ -37,12 +37,12 @@ export class GameService implements IGameService {
 
 	/**
 	 * @description Gets the games from the database. This method should handle business logic.
-	 * @return IGame[]
+	 * @return Promise<IGame[]>
 	 * @memberof GameService
 	 */
-	public getGames(cursor: string, limit: number): IGame[] {
+	public async getGames(limit: number, cursor: number): Promise<IGame[]> {
 		try {
-			const games = this.gamePersistence.getGames('1', 1);
+			const games = await this.gamePersistence.getGames(limit, cursor);
 			return games;
 		} catch (error) {
 			throw new Error(error.message);

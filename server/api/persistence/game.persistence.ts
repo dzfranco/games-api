@@ -4,39 +4,33 @@ import { Game } from '../../common/models/game/game';
 import { IGamePersistence } from '../interfaces/persistence/igame.persistence';
 import { Repository, Connection } from 'typeorm';
 import { Identifiers } from '../../common/identifiers';
-import { Publisher } from '../../common/models/publisher/publisher';
-import * as partialResponse from 'express-partial-response';
 
 @injectable()
 export class GamePersistence implements IGamePersistence {
 	private repository: Repository<Game>;
-	private games: IGame[];
 
 	constructor(@inject(Identifiers.DATABASE_IDENTIFIER) $connection: Connection) {
 		this.repository = $connection.getRepository(Game);
-		const game1 = new Game();
-		game1.$id = 1;
-		game1.$price = 39.99;
-		game1.$tags = ['shooter'];
-		game1.$releaseDate = new Date();
-		game1.$publisher = new Publisher();
-		game1.$title = 'Red Dead Redemption 2';
-		this.games = [game1];
 	}
 
 	/**
 	 * @description Gets the games depending on a cursor
-	 * @param  {string} cursor
 	 * @param  {number} limit
+	 * @param  {string} cursor
 	 * @return IGame[]
 	 * @memberof GamePersistence
 	 */
-	public getGames(cursor: string, limit: number): IGame[] {
-		const cursorIndex = this.games.findIndex(game => game.$id.toString() === cursor);
-		if (cursorIndex >= 0) {
-			return this.games.slice(cursorIndex, limit);
+	public async getGames(limit: number, cursor: number): Promise<IGame[]> {
+		const queryBuilder = this.repository.createQueryBuilder();
+		if (cursor !== null) {
+			queryBuilder.where(`id > ${cursor}`);
 		}
-		return this.games.slice(0, limit);
+		const games = await queryBuilder
+			.orderBy('releaseDate', 'ASC')
+			.orderBy('id', 'ASC')
+			.limit(limit)
+			.getMany();
+		return games;
 	}
 
 	/**

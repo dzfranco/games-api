@@ -14,9 +14,9 @@ import { IGameService } from '../../interfaces/service/igame.service';
 import { inject } from 'inversify';
 import { Identifiers } from '../../../common/identifiers';
 import { makeValidateBody } from 'express-class-validator';
-import { CreateGameValidation } from '../../validation/game/create-game';
 import { IGame } from '../../../common/models/game/igame';
-import { UpdateGameValidation } from '../../validation/game/update-game';
+import { checkSchema, check } from 'express-validator';
+import { UpdateGameValidation, CreateGameValidation, GameListValidation } from '../../validation/game';
 
 @controller('/game')
 class GameController extends BaseHttpController {
@@ -27,9 +27,11 @@ class GameController extends BaseHttpController {
 		this.gameService = $gameService;
 	}
 
-	@httpGet('')
-	public async test(@request() req: Request, @response() res: Response, @next() next: NextFunction) {
-		const games = this.gameService.getGames('1', 1);
+	@httpGet('', ...checkSchema(GameListValidation))
+	public async getGames(@request() req: Request, @response() res: Response, @next() next: NextFunction) {
+		const limit = Number.parseInt(req.query.limit, 10);
+		const cursor = req.query.cursor ? Number.parseInt(req.query.cursor) : null;
+		const games = await this.gameService.getGames(limit, cursor);
 		return res.send(games);
 	}
 

@@ -2,13 +2,13 @@ import { IGame } from '../../../common/models/game/igame';
 
 export interface IGamePersistence {
 	/**
-	 * @description Gets the games depending on a cursor. This method should interface with the Database and return an object
-	 * @param  {string} cursor
+	 * @description Gets the games depending on a cursor
 	 * @param  {number} limit
+	 * @param  {string} cursor
 	 * @return IGame[]
 	 * @memberof GamePersistence
 	 */
-	getGames(cursor: string, limit: number): IGame[];
+	getGames(limit: number, cursor: number): Promise<IGame[]>;
 
 	/**
 	 * @description Gets a game given its id

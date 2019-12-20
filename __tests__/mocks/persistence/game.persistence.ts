@@ -5,6 +5,7 @@ import { IGamePersistence } from '../../../server/api/interfaces/persistence/iga
 import { IGame } from '../../../server/common/models/game/igame';
 import { Game } from '../../../server/common/models/game/game';
 import { Publisher } from '../../../server/common/models/publisher/publisher';
+import { GameFactory } from '../../utils/game-factory';
 
 @injectable()
 export class GamePersistenceMock implements IGamePersistence {
@@ -73,17 +74,13 @@ export class GamePersistenceMock implements IGamePersistence {
 
 	/**
 	 * @description Gets the games depending on a cursor
-	 * @param  {string} cursor
 	 * @param  {number} limit
+	 * @param  {string} cursor
 	 * @return IGame[]
 	 * @memberof GamePersistence
 	 */
-	public getGames(cursor: string, limit: number): IGame[] {
-		const cursorIndex = this.games.findIndex(game => game.$id.toString() === cursor);
-		if (cursorIndex >= 0) {
-			return this.games.slice(cursorIndex, limit);
-		}
-		return this.games.slice(0, limit);
+	public async getGames(limit: number, cursor: number): Promise<IGame[]> {
+		return [GameFactory.createGame(), GameFactory.createGame()];
 	}
 
 	/**

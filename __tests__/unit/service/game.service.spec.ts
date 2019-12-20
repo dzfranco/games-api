@@ -29,10 +29,10 @@ describe('Game Service Unit Tests', () => {
 		publisherPersistence = container.get(Identifiers.PUBLISHER_PERSISTENCE_IDENTIFIER);
 	});
 
-	it('getGames - Should return games', () => {
+	it('getGames - Should return games', async () => {
 		service = container.get(Identifiers.GAME_SERVICE_IDENTIFIER);
-		const games = service.getGames('1', 1);
-		expect(games.length).toBe(1);
+		const games = await service.getGames(1, 1);
+		expect(games).toBeDefined();
 	});
 
 	it('saveGame - Gracefully handles error', async () => {

@@ -12,10 +12,10 @@ export interface IGameService {
 
 	/**
 	 * @description Gets the games from the database. This method should handle business logic.
-	 * @return IGame[]
+	 * @return Promise<IGame[]>
 	 * @memberof GameService
 	 */
-	getGames(cursor: string, limit: number): IGame[];
+	getGames(limit: number, cursor: number): Promise<IGame[]>;
 
 	/**
 	 * @description Gets a game publisher given the game ID
