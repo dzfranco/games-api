@@ -30,7 +30,7 @@ That should start MySQL and the project. You could also run the following and ru
 
 ## Endpoints
 
-Create a Game:
+The endpoints can be found [here](danielfranco.docs.apiary.io)
 
 ## Other Goodies
 
