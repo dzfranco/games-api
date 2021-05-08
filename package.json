@@ -57,7 +57,7 @@
 		"reflect-metadata": "0.1.13",
 		"response-time": "2.3.2",
 		"restify-errors": "^8.0.2",
-		"typeorm": "^0.2.21"
+		"typeorm": "^0.2.25"
 	},
 	"peerDependencies": {
 		"class-validator": "0.11.0"
