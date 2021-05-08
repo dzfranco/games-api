@@ -2308,6 +2308,14 @@ create-hmac@^1.1.0, create-hmac@^1.1.2, create-hmac@^1.1.4:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
+cross-env@5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/cross-env/-/cross-env-5.2.0.tgz#6ecd4c015d5773e614039ee529076669b9d126f2"
+  integrity sha512-jtdNFfFW1hB7sMhr/H6rW1Z45LFqyI431m3qU6bFXcQ3Eh7LtBuG3h74o7ohHZ3crrRkkqHlo4jYHFPcjroANg==
+  dependencies:
+    cross-spawn "^6.0.5"
+    is-windows "^1.0.0"
+
 cross-spawn@^5.0.1:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-5.1.0.tgz#e8bd0efee58fcff6f8f94510a0a554bbfa235449"
@@ -3847,7 +3855,7 @@ is-typedarray@~1.0.0:
   resolved "https://registry.yarnpkg.com/is-typedarray/-/is-typedarray-1.0.0.tgz#e479c80858df0c1b11ddda6940f96011fcda4a9a"
   integrity sha1-5HnICFjfDBsR3dppQPlgEfzaSpo=
 
-is-windows@^1.0.2:
+is-windows@^1.0.0, is-windows@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/is-windows/-/is-windows-1.0.2.tgz#d1850eb9791ecd18e6182ce12a30f396634bb19d"
   integrity sha512-eXK1UInq2bPmjyX6e3VHIzMLobc4J94i4AWn+Hpq3OU5KkrRC96OAcR3PRJ/pGu6m8TRnBHP9dkXQVsT/COVIA==
@@ -4799,6 +4807,11 @@ mkdirp@0.x, mkdirp@^0.5.1:
   integrity sha1-MAV0OOrGz3+MR2fzhkjWaX11yQM=
   dependencies:
     minimist "0.0.8"
+
+mkdirp@^1.0.3:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-1.0.4.tgz#3eb5ed62622756d79a5f0e2a221dfebad75c2f7e"
+  integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
 
 mout@0.12.0:
   version "0.12.0"
@@ -6071,7 +6084,7 @@ setprototypeof@1.1.1:
   resolved "https://registry.yarnpkg.com/setprototypeof/-/setprototypeof-1.1.1.tgz#7e95acb24aa92f5885e0abef5ba131330d4ae683"
   integrity sha512-JvdAWfbXeIGaZ9cILp38HntZSFSo3mWg6xGcJJsd+d4aRMOqauag1C63dJfDw7OaMYwEbHMOxEZ1lqVRYP2OAw==
 
-sha.js@^2.4.0, sha.js@^2.4.8:
+sha.js@^2.4.0, sha.js@^2.4.11, sha.js@^2.4.8:
   version "2.4.11"
   resolved "https://registry.yarnpkg.com/sha.js/-/sha.js-2.4.11.tgz#37a5cf0b81ecbc6943de109ba2960d1b26584ae7"
   integrity sha512-QMEp5B7cftE7APOjk5Y6xgrbWu+WkLVQwk8JNjZ8nKRciZaByEW6MubieAiToS7+dwvrjGhH8jRXz3MVd0AYqQ==
@@ -6824,10 +6837,10 @@ typedoc@^0.15.0:
     typedoc-default-themes "^0.6.2"
     typescript "3.7.x"
 
-typeorm@^0.2.21:
-  version "0.2.21"
-  resolved "https://registry.yarnpkg.com/typeorm/-/typeorm-0.2.21.tgz#d8d63bec783c128913b140b52f65e9fd76e44510"
-  integrity sha512-4abj5aFjwt4Y+Gs3VmykcjURUZwIezwPWYVMNl2swRk8/iluGZZ9Lbwd4tdzJ7ZdsgKyHsT8zf8zPZPL5jH+EQ==
+typeorm@^0.2.25:
+  version "0.2.25"
+  resolved "https://registry.yarnpkg.com/typeorm/-/typeorm-0.2.25.tgz#1a33513b375b78cc7740d2405202208b918d7dde"
+  integrity sha512-yzQ995fyDy5wolSLK9cmjUNcmQdixaeEm2TnXB5HN++uKbs9TiR6Y7eYAHpDlAE8s9J1uniDBgytecCZVFergQ==
   dependencies:
     app-root-path "^3.0.0"
     buffer "^5.1.0"
@@ -6837,8 +6850,9 @@ typeorm@^0.2.21:
     dotenv "^6.2.0"
     glob "^7.1.2"
     js-yaml "^3.13.1"
-    mkdirp "^0.5.1"
+    mkdirp "^1.0.3"
     reflect-metadata "^0.1.13"
+    sha.js "^2.4.11"
     tslib "^1.9.0"
     xml2js "^0.4.17"
     yargonaut "^1.1.2"
